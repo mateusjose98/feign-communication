@@ -10,8 +10,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -30,10 +28,8 @@ public class UserSessionValidationFilter implements Filter {
         if(sessionIdHeader == null){
             res.sendError(HttpStatus.FORBIDDEN.value());
         } else {
-            Map<String, Object> queryMap = new HashMap<>();
-            queryMap.put("sessionId", sessionIdHeader);
-            queryMap.put("anotherId", UUID.randomUUID().toString());
-            UserSessionValidatorResponse userSessionValidatorResponse = userSessionClient.validateSession(queryMap);
+            UUID sessionIdUUID = UUID.fromString(sessionIdHeader);
+            UserSessionValidatorResponse userSessionValidatorResponse = userSessionClient.validateSession(sessionIdUUID);
             if (!userSessionValidatorResponse.isValid()){
                 res.sendError(HttpStatus.FORBIDDEN.value());
             } else {
