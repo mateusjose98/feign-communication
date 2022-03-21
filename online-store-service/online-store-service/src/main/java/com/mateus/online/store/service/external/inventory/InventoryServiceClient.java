@@ -1,5 +1,6 @@
 package com.mateus.online.store.service.external.inventory;
 
+import com.mateus.online.store.service.external.BaseClient;
 import com.mateus.online.store.service.external.config.OffsetDateTimeToMillisExpander;
 import feign.Headers;
 import feign.Param;
@@ -7,7 +8,7 @@ import feign.RequestLine;
 
 import java.time.OffsetDateTime;
 
-public interface InventoryServiceClient {
+public interface InventoryServiceClient  extends BaseClient {
 
     @RequestLine("POST /products")
     @Headers("Content-Type: application/json")

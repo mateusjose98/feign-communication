@@ -19,6 +19,7 @@ public class FeignConfig {
                 .logLevel(Logger.Level.FULL)
                 .logger(new Slf4jLogger())
                 .encoder(new JacksonEncoder())
+                .requestInterceptor(new SourceRequestInterceptor())
                 .decoder(new JacksonDecoder())
                 .target(UserSessionClient.class, "http://localhost:8082");
     }
@@ -30,6 +31,7 @@ public class FeignConfig {
                 .logger(new Slf4jLogger())
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
+                .requestInterceptor(new SourceRequestInterceptor())
                 .target(InventoryServiceClient.class, "http://localhost:8081");
     }
 }
