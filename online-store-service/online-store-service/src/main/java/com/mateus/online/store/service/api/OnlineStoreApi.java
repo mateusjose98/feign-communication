@@ -35,7 +35,7 @@ public class OnlineStoreApi {
     public ResponseEntity<?> buy (@PathVariable("productId") UUID productId){
 
         OffsetDateTime boughtAt = OffsetDateTime.now(Clock.systemUTC());
-        inventoryServiceClient.buy(productId.toString(), 1, boughtAt);
+        inventoryServiceClient.buy(productId.toString(), 1);
         return ResponseEntity.ok().build();
 
     }

@@ -1,37 +1,36 @@
 package com.mateus.online.store.service.external.config;
 
-import com.mateus.online.store.service.external.inventory.InventoryServiceClient;
-import com.mateus.online.store.service.external.session.UserSessionClient;
-import feign.Feign;
 import feign.Logger;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
-import feign.slf4j.Slf4jLogger;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableFeignClients(basePackages = "com.mateus.online.store.service.external")
 public class FeignConfig {
 
     @Bean
-    public UserSessionClient userSessionClient(){
-        return Feign.builder()
-                .logLevel(Logger.Level.FULL)
-                .logger(new Slf4jLogger())
-                .encoder(new JacksonEncoder())
-                .requestInterceptor(new SourceRequestInterceptor())
-                .decoder(new JacksonDecoder())
-                .target(UserSessionClient.class, "http://localhost:8082");
+    public Logger.Level loggerLevel(){
+        return Logger.Level.FULL;
     }
 
-    @Bean
-    public InventoryServiceClient inventoryServiceClient(){
-        return Feign.builder()
-                .logLevel(Logger.Level.FULL)
-                .logger(new Slf4jLogger())
-                .encoder(new JacksonEncoder())
-                .decoder(new JacksonDecoder())
-                .requestInterceptor(new SourceRequestInterceptor())
-                .target(InventoryServiceClient.class, "http://localhost:8081");
-    }
+//   APENAS PARA CONSULTA - COM O SPRING, BASTA USAR @Component nos interceptors
+//    final static Integer SEC = 1000;
+//
+//    @Bean
+//    public InventoryServiceClient inventoryServiceClient(){
+//
+//
+//        long timeInSecondsDoNewRequest =  1 * SEC;
+//        Integer attempts = 2;
+//        long maxPeriodInSeconds = 5 * SEC;
+//
+//
+//        return Feign.builder()
+//                .errorDecoder(new InventoryServiceCustomFeignDecoder())
+//                .retryer(new Retryer.Default(timeInSecondsDoNewRequest, maxPeriodInSeconds,attempts))
+//                .requestInterceptor(new SourceRequestInterceptor())
+//                .options(new Request.Options(10, TimeUnit.SECONDS, 10, TimeUnit.SECONDS, true))
+//                .target(InventoryServiceClient.class, "http://localhost:8081");
+//    }
 }

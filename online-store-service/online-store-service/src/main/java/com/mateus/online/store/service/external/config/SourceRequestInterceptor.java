@@ -2,7 +2,9 @@ package com.mateus.online.store.service.external.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SourceRequestInterceptor implements RequestInterceptor {
 
     @Override
